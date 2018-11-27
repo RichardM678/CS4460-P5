@@ -15,11 +15,18 @@ function start() {
     // a reference to it for later.
     var graph = document.getElementById('graph');
 
+    var num2010 = 0;
+    d3.csv('movies.csv', function(d) {
+       
+    });
+    
+
+
     // Specify the width and height of our graph
     // as variables so we can use them later.
     // Remember, hardcoding sucks! :)
     var width = 1200;
-    var height = 100000;
+    var height = 10000;
     var svg = d3.select(graph)
         .append('svg')
         .attr('width', width)
@@ -36,26 +43,29 @@ function start() {
 
     // Tell D3 to create a y-axis scale for us, and orient it to the left.
     // That means the labels are on the left, and tick marks on the right.
-    //var yAxis = d3.svg.axis().scale(yScale).orient('left');
-    console.log(yScale);
-
-
-
-
+    //var a =  d3.csv('movies.csv' , function(d){console.log(d);});
+    
 
     d3.csv('movies.csv', function(d) {
         d.budget = +d.budget;
+        d.gross = +d.gross;
+        if (d.title_year == "2010") {
+            num2010++;
+        }
         return d;
+  
     }, function(error, data) {
         // We now have the "massaged" CSV data in the 'data' variable.
 
         // We set the domain of the xScale. The domain includes 0 up to
         // the maximum frequency in the dataset. This is because
+        data = data.filter(function (d) {return d.title_year == 2010;});
+        data.sort(function(x, y) {return d3.descending(x.gross, y.gross);});
+        console.log(data);
 
 
         xScale.domain([0, d3.max(data, function(d) {
-            return d.budget;
-        })
+            return d.gross; })
         ]);
 
         yScale.domain(data.map(function(d) {
@@ -93,16 +103,18 @@ function start() {
             .attr('width', function(d) {
                 // xScale will map any number and return a number
                 // within the output range we specified earlier.
-                return xScale(d.budget);
+                //console.log(d.gross);
+                return xScale(d.gross);
             })
             .attr('height', function(d) {
                 // Remember how we set the yScale to be an ordinal scale
                 // with bands from 0 to height? And then we set the domain
                 // to contain all the letters in the alphabet?
 
-                if (d.title_year < 2011) {
-                    return yScale.rangeBand();
-                }
+                return yScale.rangeBand();
+                // if (d.title_year < 2011) {
+                //     return yScale.rangeBand();
+                // }
 
                 // return 20;
             });
