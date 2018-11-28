@@ -37,6 +37,8 @@ function start() {
     // Tell D3 to create a y-axis scale for us, and orient it to the left.
     // That means the labels are on the left, and tick marks on the right.
     //var yAxis = d3.svg.axis().scale(yScale).orient('left');
+    var yAxis = d3.svg.axis().scale(yScale).orient('left');
+    var xAxis = d3.svg.axis().scale(xScale).orient('top');
     console.log(yScale);
 
 
@@ -67,7 +69,7 @@ function start() {
         }));
 
 
-        var yAxis = d3.svg.axis().scale(yScale).orient('left');
+
         //
         //  year = d3
         // .nest()
@@ -75,10 +77,19 @@ function start() {
         // .entries(data);
 
         // console.log(year);
+        //
+        // yScale.domain([0, data.map(function(d) { return
+        //     if ( d.title_year < 2011) {
+        //         return d.budget;}
+        //          })]);
         bars.append('g')
             .attr('class', 'y axis')
             .attr('transform', 'translate(100, 0)')
             .call(yAxis);
+        bars.append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(100, 0)')
+            .call(xAxis);
 
         bars.append('g')
             .selectAll('.bar')
