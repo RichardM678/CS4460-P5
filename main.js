@@ -60,7 +60,7 @@ function start() {
 
         // We set the domain of the xScale. The domain includes 0 up to
         // the maximum frequency in the dataset. This is because
-        data1 = data.filter(function (d) {return d.title_year == 2010 && d.gross > 170051787});
+        data1 = data.filter(function (d) {return d.title_year == 2010 && d.gross > 120051787}); //170051787
         data1.sort(function(x, y) {return d3.descending(x.gross, y.gross);});
 
         xScale.domain([0, d3.max(data1, function(d) {
@@ -145,9 +145,7 @@ function start() {
 
 
 
-        // 2011
-
-        
+        // 2011 
         data2 = data.filter(function (d) {return d.title_year == 2011 && d.gross >= 169705587});
         data2.sort(function(x, y) {return d3.descending(x.gross, y.gross);});
 
